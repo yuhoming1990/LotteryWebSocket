@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>WebSocket Client</title>
-    <style>
-   	body {
+    <title>WebSocket Client</title>  <style>
+        body {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -11,6 +10,7 @@
             height: 100vh;
             margin: 0;
             padding: 0;
+            background-color: #f2f2f2;
         }
 
         #userInput {
@@ -18,11 +18,18 @@
             max-width: 300px;
             padding: 10px;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         button {
             padding: 10px 20px;
             margin-bottom: 10px;
+            background-color: #4caf50;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
 
         #output {
@@ -30,24 +37,16 @@
             max-width: 300px;
             padding: 10px;
             border: 1px solid #ccc;
+            background-color: #ffffff;
         }
- 
 
-        @media only screen and (max-device-width: 480px) { 
-
-            #userInput {
-            	padding: 10px;
-            	margin-bottom: 10px;
+        @media only screen and (max-device-width: 480px) {
+            #userInput,
+            button,
+            #output {
                 width: calc(100% - 40px);
-            	max-width: 300px;
+                max-width: 300px;
                 margin: 10px;
-            }
-
-            button, #output {
-            	padding: 10px 20px;
-            	margin-bottom: 10px;
-                width: calc(100% - 40px);
-            	max-width: 300px;
             }
         }
     </style>
