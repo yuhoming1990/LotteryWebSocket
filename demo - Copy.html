@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .userList {
+            flex-grow: 1;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        form {
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            padding: 5px 10px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #lotteryResult {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Client</h1>
+
+    <div class="container">
+        <div>
+            <form id="usernameForm">
+                <label for="username">Enter your username:</label>
+                <input type="text" id="username" required>
+                <button type="submit">Add User</button>
+            </form>
+
+            <button id="drawLottery">Draw Lottery</button>
+        </div>
+
+        <div class="userList" id="userList"></div>
+
+   	<div id="lotteryResult"></div>
+
+    </div>
+
+    <script>
+        const userList = document.getElementById('userList');
+        const usernameForm = document.getElementById('usernameForm');
+        const usernameInput = document.getElementById('username');
+        const drawLotteryButton = document.getElementById('drawLottery');
+
+        const socket = new WebSocket('ws://localhost:3000');
+
+        // When the WebSocket connection is established
+        socket.onopen = () => {
+            console.log('Connected to server');
+        };
+
+        // When a message is received from the server
+        socket.onmessage = (event) => {
+            const message = event.data;
+            console.log('Received message:', message);
+
+            // Check if the message is the user list
+            if (message.startsWith('Current Users:')) {
+                const userListText = message.substring('Current Users:'.length);
+                userList.textContent = userListText;
+            }
+        };
+
+        // When the username form is submitted
+        usernameForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const username = usernameInput.value;
+            socket.send(username);
+
+            usernameInput.value = '';
+        });
+
+        // When the draw lottery button is clicked
+        drawLotteryButton.addEventListener('click', () => {
+            fetch('http://localhost:3000/lottery')
+                .then(response => response.text())
+                .then(data => {
+	            lotteryResult.textContent = data;
+
+                    console.log('Lottery draw result:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
+</body>
+</html>
