@@ -2,6 +2,61 @@
 <html>
 <head>
     <title>WebSocket Client</title>
+    <style>
+   	body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #userInput {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+
+        #output {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+ 
+
+        @media only screen and (max-device-width: 480px) {
+            body {
+            float: none;
+            width: 400px;
+
+
+            }
+
+            #userInput {
+            	padding: 10px;
+            	margin-bottom: 10px;
+                width: calc(100% - 40px);
+            	max-width: 300px;
+                margin: 10px;
+            }
+
+            button, #output {
+            	padding: 10px 20px;
+            	margin-bottom: 10px;
+                width: calc(100% - 40px);
+            	max-width: 300px;
+            }
+        }
+    </style>
 </head>
 <body>
     <input type="text" id="userInput" placeholder="Enter a username">
@@ -49,11 +104,10 @@
             outputDiv.appendChild(messageDiv);
         }
 
-	window.onbeforeunload = function() {
-    		webSocket.onclose = function () {}; // disable onclose handler first
-    		webSocket.close();
-	};
-
+        window.onbeforeunload = function() {
+            webSocket.onclose = function () {}; // disable onclose handler first
+            webSocket.close();
+        };
     </script>
 </body>
 </html>

@@ -51,6 +51,9 @@ websocketServer.on('error', function() {
   // Handle the error.
 });
 
+websocketServer.on('close', function() {
+});
+
 // Define the /users endpoint to send the list of connected users
 app.get("/users", (req, res) => {
     res.json(connectedUsers);
