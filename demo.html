@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket Client</title>
+</head>
+<body>
+    <input type="text" id="userInput" placeholder="Enter a username">
+    <button onclick="addUser()">Add User</button>
+    <div id="output"></div>
+
+    <script>
+        const webSocket = new WebSocket("ws://192.168.1.183:3000");
+        const userInput = document.getElementById("userInput");
+
+        // When the WebSocket connection is established
+        webSocket.onopen = function() {
+            console.log("WebSocket connection established.");
+        };
+
+        // When a message is received from the server
+        webSocket.onmessage = function(event) {
+            const message = event.data;
+            showMessage(message);
+        };
+
+        // When an error occurs
+        webSocket.onerror = function(error) {
+            console.error("WebSocket error:", error);
+        };
+
+        // When the WebSocket connection is closed
+        webSocket.onclose = function() {
+            console.log("WebSocket connection closed.");
+        };
+
+        // Function to add a user to the server
+        function addUser() {
+            const username = userInput.value;
+            webSocket.send(username);
+            userInput.value = "";
+            userInput.disabled = true;
+        }
+
+        // Function to display a message in the output div
+        function showMessage(message) {
+            const outputDiv = document.getElementById("output");
+            const messageDiv = document.createElement("div");
+            messageDiv.textContent = message;
+            outputDiv.appendChild(messageDiv);
+        }
+
+	window.onbeforeunload = function() {
+    		webSocket.onclose = function () {}; // disable onclose handler first
+    		webSocket.close();
+	};
+
+    </script>
+</body>
+</html>
