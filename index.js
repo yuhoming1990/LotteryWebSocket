@@ -66,7 +66,10 @@ app.get("/lottery", (req, res) => {
         return;
     }
 
-    const winnerIndex = Math.floor(Math.random() * connectedUsers.length);
+    const winnerIndex = Math.ceil(Math.random() * connectedUsers.length);
+    console.log(winnerIndex);
+    console.log(Math.random() + " " + connectedUsers.length);
+
     const winner = connectedUsers[winnerIndex];
 
     // Reset the connected users array for the next draw
