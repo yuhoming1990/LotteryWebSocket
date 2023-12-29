@@ -66,9 +66,11 @@ app.get("/lottery", (req, res) => {
         return;
     }
 
-    const winnerIndex = Math.ceil(Math.random() * connectedUsers.length);
+    var previous = Math.random();
+
+    const winnerIndex = Math.ceil(previous * connectedUsers.length) - 1;
     console.log(winnerIndex);
-    console.log(Math.random() + " " + connectedUsers.length);
+    console.log(previous + " " + connectedUsers.length + " " + previous * connectedUsers.length);
 
     const winner = connectedUsers[winnerIndex];
 
